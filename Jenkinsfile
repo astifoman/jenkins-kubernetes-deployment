@@ -4,6 +4,7 @@ pipeline {
   environment {
     dockerImage = ""
     registryCredential = 'dockerhub-credentials'
+    dockerBinaryPath = 'C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker'
   }
   
   stages {
@@ -16,7 +17,7 @@ pipeline {
     stage('Build image') {
       steps {
         script {
-          dockerImage = docker.build("astifoman/react-app")
+          dockerImage = sh(script: "\"${dockerBinaryPath}\" build -t astifoman/react-app .", returnStdout: true).trim()
         }
       }
     }
